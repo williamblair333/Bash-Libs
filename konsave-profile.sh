@@ -4,7 +4,7 @@
 #configurations using the Konsave project (https://github.com/Prayag2/konsave)
 #################################################################################
 
-source '/opt/src/shell/date-time.config'
+source '/path/to/file/date-time.config'
 
 rm ${HOME}/.config/konsave/*.knsv
 ${HOME}/.local/bin/konsave -w
