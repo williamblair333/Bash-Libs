@@ -20,14 +20,12 @@ dir_ssh=$(ls -a $HOME | grep '.ssh')
 
 if [ -z "$user_name" ]; then
 	user_name=$(whoami)
-	echo $user_name
+	key_name=${user_name}_id_rsa
 fi
 
 if [ -z "$dir_ssh" ]; then
 	mkdir $HOME/.ssh
 	dir_ssh=$(ls -a $HOME | grep '.ssh')
 fi
-
-key_name=${user_name}_id_rsa
 
 ssh-keygen -f $HOME/.ssh/$key_name -t rsa -N ''
