@@ -14,6 +14,10 @@
 #- automatically create ssh public and private key in the $HOME/.ssh directory
 #- without any passphrase
 #################################################################################
+#better way..
+#mkdir -p ${HOME}/.ssh
+#ssh-keygen -f ${HOME}.ssh/$(whoami)_id_rsa -t rsa -N ''
+
 
 user_name="$1"
 dir_ssh=$(ls -a $HOME | grep '.ssh')
