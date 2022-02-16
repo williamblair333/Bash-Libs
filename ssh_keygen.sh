@@ -20,7 +20,7 @@
 
 
 user_name="$1"
-dir_ssh=$(ls -a $HOME | grep '.ssh')
+dir_ssh="$2"
 
 if [ -z "$user_name" ]; then
 	user_name=$(whoami)
