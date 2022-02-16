@@ -20,7 +20,6 @@ dir_ssh=$(ls -a $HOME | grep '.ssh')
 
 if [ -z "$user_name" ]; then
 	user_name=$(whoami)
-	key_name=${user_name}_id_rsa
 fi
 
 if [ -z "$dir_ssh" ]; then
@@ -28,4 +27,5 @@ if [ -z "$dir_ssh" ]; then
 	dir_ssh=$(ls -a $HOME | grep '.ssh')
 fi
 
+key_name=${user_name}_id_rsa
 ssh-keygen -f $HOME/.ssh/$key_name -t rsa -N ''
