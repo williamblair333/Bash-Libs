@@ -1,3 +1,4 @@
+#ip_list=$(ip address | grep -B 3 'valid_lft' | awk '{print $1 "," $2 "," $3 "," $4 "," $5 "," $6 "," $7 "," $8 "," $9}')
 #awk NR== refers to which line number to return / print
 #grep -A refers to returning result plus x lines after -B before -C before and after
 #echo "${variable//<character>}") will remove the character listed and optionally all characters after
