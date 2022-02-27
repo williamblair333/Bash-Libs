@@ -17,8 +17,8 @@
 #better way..
 #mkdir -p ${HOME}/.ssh
 #ssh-keygen -f ${HOME}/.ssh/$(whoami)_id_rsa -t rsa -N ''
-
-
+#scp ${HOME}/.ssh/$(whoami)_id_rsa.pub user@192.168.1.1:/home/user/.ssh/$(whoami)_id_rsa.pub
+ 
 user_name="$1"
 dir_ssh="$2"
 
@@ -33,3 +33,5 @@ fi
 
 key_name=${user_name}_id_rsa
 ssh-keygen -f $HOME/.ssh/$key_name -t rsa -N ''
+
+scp file.txt username@to_host:/remote/directory/
