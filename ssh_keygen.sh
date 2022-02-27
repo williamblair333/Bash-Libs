@@ -16,7 +16,7 @@
 #################################################################################
 #better way..
 #mkdir -p ${HOME}/.ssh
-#ssh-keygen -f ${HOME}.ssh/$(whoami)_id_rsa -t rsa -N ''
+#ssh-keygen -f ${HOME}/.ssh/$(whoami)_id_rsa -t rsa -N ''
 
 
 user_name="$1"
