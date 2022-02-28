@@ -13,12 +13,16 @@
 #
 #- automatically create ssh public and private key in the $HOME/.ssh directory
 #- without any passphrase
+#
+#- copy the public key to the remote server
 #################################################################################
+
 #better way..
 #mkdir -p ${HOME}/.ssh
 #ssh-keygen -f ${HOME}/.ssh/$(whoami)_id_rsa -t rsa -N ''
 #scp ${HOME}/.ssh/$(whoami)_id_rsa.pub user@192.168.1.1:/home/user/.ssh/$(whoami)_id_rsa.pub
- 
+#################################################################################
+
 user_name="$1"
 dir_ssh="$2"
 
@@ -34,4 +38,17 @@ fi
 key_name=${user_name}_id_rsa
 ssh-keygen -f $HOME/.ssh/$key_name -t rsa -N ''
 
-scp file.txt username@to_host:/remote/directory/
+#check if .ssh exists. If not, create the directory and copy the public key 
+if ssh $(whoami)@192.168.1.13 '[ -d $HOME/.ssh ]'
+then
+{
+    echo 'directory already exists'
+    scp ${HOME}/.ssh/$(whoami)_id_rsa.pub $(whoami)@192.168.1.13:${HOME}/.ssh/$(whoami)_id_rsa.pub
+}
+else
+{
+    ssh $(whoami)@192.168.1.13 "mkdir $HOME/.ssh"
+    scp ${HOME}/.ssh/$(whoami)_id_rsa.pub $(whoami)@192.168.1.13:${HOME}/.ssh/$(whoami)_id_rsa.pub
+}
+fi
+#################################################################################
