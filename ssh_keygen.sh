@@ -25,7 +25,7 @@
 
 user_name="$1"
 dir_ssh="$2"
-ip_addr="192.168.1.13"
+ip_addr="192.168.1.1"
 
 if [ -z "$user_name" ]; then
 	user_name=$(whoami)
