@@ -35,7 +35,7 @@ if [ -z "$dir_ssh" ]; then
 	dir_ssh=$(ls -a $HOME | grep '.ssh')
 fi
 
-key_name=${user_name}_id_rsa
+key_name=id_rsa
 ssh-keygen -f $HOME/.ssh/$key_name -t rsa -N ''
 
 #check if .ssh exists. If not, create the directory and copy the public key 
