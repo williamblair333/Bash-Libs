@@ -21,11 +21,17 @@
 #mkdir -p ${HOME}/.ssh
 #ssh-keygen -f ${HOME}/.ssh/$(whoami)_id_rsa -t rsa -N ''
 #scp ${HOME}/.ssh/$(whoami)_id_rsa.pub user@192.168.1.1:/home/user/.ssh/$(whoami)_id_rsa.pub
+#todo:  check if file exists:  
+# ssh_key_check=$(ls $HOME/.ssh/id_rsa | awk 'BEGIN {FS = "/"} ; {print $5}')
+# if [ -z "$ssh_key_check" ]; then
+#	echo 'key already exists'
+# fi
 #################################################################################
 
 user_name="$1"
 dir_ssh="$2"
 ip_addr="$3"
+key_name=id_rsa
 
 if [ -z "$user_name" ]; then
 	user_name=$(whoami)
@@ -40,9 +46,6 @@ if [ -z "$ip_addr" ]; then
 	ip_addr="192.168.1.1"
 fi
 
-
-
-key_name=id_rsa
 ssh-keygen -f $HOME/.ssh/$key_name -t rsa -N ''
 
 #check if .ssh exists. If not, create the directory and copy the public key 
@@ -52,6 +55,7 @@ then
     echo 'directory already exists'
     scp ${HOME}/.ssh/$key_name $(whoami)@$ip_addr:${HOME}/.ssh/$key_name
 }
+
 else
 {
     ssh $(whoami)@$ip_addr "mkdir $HOME/.ssh"
@@ -60,5 +64,4 @@ else
 fi
 
 ssh-copy-id -i ${HOME}/.ssh/$key_name $(whoami)@$ip_addr
-
 #################################################################################
