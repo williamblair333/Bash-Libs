@@ -25,7 +25,7 @@
 
 user_name="$1"
 dir_ssh="$2"
-ip_addr="192.168.1.1"
+ip_addr="$3"
 
 if [ -z "$user_name" ]; then
 	user_name=$(whoami)
@@ -35,6 +35,12 @@ if [ -z "$dir_ssh" ]; then
 	mkdir $HOME/.ssh
 	dir_ssh=$(ls -a $HOME | grep '.ssh')
 fi
+
+if [ -z "$ip_addr" ]; then
+	ip_addr="192.168.1.1"
+fi
+
+
 
 key_name=id_rsa
 ssh-keygen -f $HOME/.ssh/$key_name -t rsa -N ''
