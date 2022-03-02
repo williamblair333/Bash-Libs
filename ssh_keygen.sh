@@ -33,27 +33,40 @@ done
 
 # [ -z "$variable" ] means empty
 if [ -z "$user_name" ]; then
-	user_name=$(whoami)
+    user_name=$(whoami)
 fi
 
 if [ -z "$dir_ssh" ]; then
-	mkdir $HOME/.ssh
-	dir_ssh=$(ls -a $HOME | grep '.ssh')
+    mkdir $HOME/.ssh
+    dir_ssh=$(ls -a $HOME | grep '.ssh')
 fi
 
-#check if the directory exists or not
+#check if the ssh key destination directory exists
 dir_chk=$(ls -a $HOME | grep -Fx $dir_ssh)
 
 if [ "$dir_ssh" != "$dir_chk" ]; then
-	mkdir $HOME/$dir_ssh
+    mkdir $HOME/$dir_ssh
+else
+{
+    echo "key already exists"
+}
+fi
+
+#check if $key_name exists
+key_chk=$(ls -a $HOME/$dir_ssh/$key_name | awk 'BEGIN {FS="/"} {print $5}')
+
+if [ "$key_chk" != "$key_name" ]; then
+    yes 'y' | ssh-keygen -f $HOME/$dir_ssh/$key_name -q -t rsa -N ''
+    echo "key already exists"
 fi
 
 if [ -z "$ip_addr" ]; then
-	ip_addr="192.168.1.1"
+    ip_addr="192.168.1.1"
 fi
 
 #create the key and automatically overwrite existing keys!
-yes 'y' | ssh-keygen -f $HOME/$dir_ssh/$key_name -q -t rsa -N ''
+#Let's hold off the nuclear option until we think it through
+#yes 'y' | ssh-keygen -f $HOME/$dir_ssh/$key_name -q -t rsa -N ''
 
 #check if $dir_ssh exists on target server. If not, create the directory and copy 
 #the public key.
