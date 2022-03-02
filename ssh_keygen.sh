@@ -1,7 +1,11 @@
-#!/bin/sh
+#!/bin/env bash
+
+#set -x
+#trap read debug
+
 #################################################################################
 #
-#Run example: ./ssh_keygen.sh "Torvalds"
+#Run example: ./ssh_keygen.sh -u williamblair333 -d .ssh -i 192.168.1.1 -k id_rsa
 #File:        ssh_keygen.sh
 #Date:        2022FEB16
 #Author:      William Blair
@@ -11,28 +15,25 @@
 #
 #This script is intended to do the following:
 #
-#- automatically create ssh public and private key in the $HOME/.ssh directory
+#- automatically create ssh public and private key in the $HOME/$dir_ssh directory
 #- without any passphrase
 #
 #- copy the public key to the remote server
 #################################################################################
 
-#better way..
-#mkdir -p ${HOME}/.ssh
-#ssh-keygen -f ${HOME}/.ssh/$(whoami)_id_rsa -t rsa -N ''
-#scp ${HOME}/.ssh/$(whoami)_id_rsa.pub user@192.168.1.1:/home/user/.ssh/$(whoami)_id_rsa.pub
-#todo:  check if file exists:  
-# ssh_key_check=$(ls $HOME/.ssh/id_rsa | awk 'BEGIN {FS = "/"} ; {print $5}')
-# if [ -z "$ssh_key_check" ]; then
-#	echo 'key already exists'
-# fi
-#################################################################################
+#positional parameters
+while getopts u:d:i:k: flag
 
-user_name="$1"
-dir_ssh="$2"
-ip_addr="$3"
-key_name=id_rsa
+do
+    case "${flag}" in
+        u) user_name=${OPTARG};;
+        d) dir_ssh=${OPTARG};;
+        i) ip_addr=${OPTARG};;
+	    k) key_name=${OPTARG};;
+    esac
+done
 
+# [ -z "$variable" ] means empty
 if [ -z "$user_name" ]; then
 	user_name=$(whoami)
 fi
@@ -42,26 +43,34 @@ if [ -z "$dir_ssh" ]; then
 	dir_ssh=$(ls -a $HOME | grep '.ssh')
 fi
 
+#check if the directory exists or not
+dir_chk=$(ls -a $HOME | grep -Fx $dir_ssh)
+
+if [ "$dir_ssh" != "$dir_chk" ]; then
+	mkdir $HOME/$dir_ssh
+fi
+
 if [ -z "$ip_addr" ]; then
 	ip_addr="192.168.1.1"
 fi
 
-ssh-keygen -f $HOME/.ssh/$key_name -t rsa -N ''
+#create the key and automatically overwrite existing keys!
+yes 'y' | ssh-keygen -f $HOME/$dir_ssh/$key_name -q -t rsa -N ''
 
-#check if .ssh exists. If not, create the directory and copy the public key 
-if ssh $(whoami)@$ip_addr '[ -d $HOME/.ssh ]'
-then
+#check if $dir_ssh exists on target server. If not, create the directory and copy 
+#the public key.
+if ssh $user_name@$ip_addr '[ -d $HOME/$dir_ssh ]'; then
 {
     echo 'directory already exists'
-    scp ${HOME}/.ssh/$key_name $(whoami)@$ip_addr:${HOME}/.ssh/$key_name
+    scp ${HOME}/$dir_ssh/$key_name.pub $user_name@$ip_addr:${HOME}/$dir_ssh/$key_name.pub
 }
 
 else
 {
-    ssh $(whoami)@$ip_addr "mkdir $HOME/.ssh"
-    scp ${HOME}/.ssh/$key_name $(whoami)@$ip_addr:${HOME}/.ssh/$key_name
+    ssh $user_name@$ip_addr "mkdir $HOME/$dir_ssh"
+    scp ${HOME}/$dir_ssh/$key_name.pub $(whoami)@$ip_addr:${HOME}/$dir_ssh/$key_name.pub
 }
 fi
 
-ssh-copy-id -i ${HOME}/.ssh/$key_name $(whoami)@$ip_addr
+ssh-copy-id -i ${HOME}/$dir_ssh/$key_name.pub $user_name@$ip_addr
 #################################################################################
