@@ -23,9 +23,10 @@
 #Update, add repo, get packages do the install
 sudo apt-get update
 sudo apt-get install software-properties-common
-sudo add-apt-repository universe
-sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update && sudo apt-get install certbot
+#sudo add-apt-repository universe
+#sudo add-apt-repository ppa:certbot/certbot
+apt-get install software-properties-common certbot
+sudo apt-get update
 
 #Generate A Certificate
 sudo certbot certonly --manual --preferred-challenges dns
