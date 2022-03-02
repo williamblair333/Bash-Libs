@@ -20,15 +20,12 @@
 #- manually setup and create a certificate from certbot for a website
 #################################################################################
 
-#Creating and Deploying a LetsEncrypt Certificate Manually
+#Update, add repo, get packages do the install
 sudo apt-get update
 sudo apt-get install software-properties-common
 sudo add-apt-repository universe
 sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
-
-#Once you've added the repository you can run this command to install Certbot.
-sudo apt-get install certbot
+sudo apt-get update && sudo apt-get install certbot
 
 #Generate A Certificate
 sudo certbot certonly --manual --preferred-challenges dns
