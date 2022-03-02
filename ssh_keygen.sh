@@ -21,9 +21,7 @@
 #- copy the public key to the remote server
 #################################################################################
 
-#positional parameters
 while getopts u:d:i:k: flag
-
 do
     case "${flag}" in
         u) user_name=${OPTARG};;
