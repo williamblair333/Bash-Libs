@@ -29,7 +29,7 @@ do
         u) user_name=${OPTARG};;
         d) dir_ssh=${OPTARG};;
         i) ip_addr=${OPTARG};;
-	    k) key_name=${OPTARG};;
+	k) key_name=${OPTARG};;
     esac
 done
 
