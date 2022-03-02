@@ -48,7 +48,7 @@ if [ "$dir_ssh" != "$dir_chk" ]; then
     mkdir $HOME/$dir_ssh
 else
 {
-    echo "key already exists"
+    echo "directory already exists"
 }
 fi
 
@@ -57,7 +57,12 @@ key_chk=$(ls -a $HOME/$dir_ssh/$key_name | awk 'BEGIN {FS="/"} {print $5}')
 
 if [ "$key_chk" != "$key_name" ]; then
     yes 'y' | ssh-keygen -f $HOME/$dir_ssh/$key_name -q -t rsa -N ''
+    
+else
+{
     echo "key already exists"
+}
+
 fi
 
 if [ -z "$ip_addr" ]; then
