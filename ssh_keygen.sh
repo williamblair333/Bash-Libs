@@ -5,7 +5,7 @@
 
 #################################################################################
 #
-#Run example: ./ssh_keygen.sh -u williamblair333 -d .ssh -i 192.168.1.1 -k id_rsa
+#Run example: ./ssh_keygen.sh -b 2048 -u williamblair333 -d .ssh -i 192.168.1.1 -k id_rsa
 #File:        ssh_keygen.sh
 #Date:        2022FEB16
 #Author:      William Blair
@@ -24,7 +24,8 @@
 while getopts u:d:i:k: flag
 do
     case "${flag}" in
-        u) user_name=${OPTARG};;
+        b) bits=${OPTARG};;
+	u) user_name=${OPTARG};;
         d) dir_ssh=${OPTARG};;
         i) ip_addr=${OPTARG};;
 	k) key_name=${OPTARG};;
@@ -56,7 +57,7 @@ fi
 key_chk=$(ls -a $HOME/$dir_ssh/$key_name | awk 'BEGIN {FS="/"} {print $5}')
 
 if [ "$key_chk" != "$key_name" ]; then
-    yes 'y' | ssh-keygen -f $HOME/$dir_ssh/$key_name -q -t rsa -N ''
+    yes 'y' | ssh-keygen -b $bits -f $HOME/$dir_ssh/$key_name -q -t rsa -N ''
     
 else
 {
