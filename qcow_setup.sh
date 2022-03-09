@@ -1,3 +1,4 @@
+
 #!/bin/env bash
 
 #set -x
@@ -20,7 +21,7 @@
 #################################################################################
 
 user_name=libvirt-qemu
-image_name=Bullseye-01
+image_name=NixOS-01
 image_dir=$image_name
 image_path=/opt/lib/libvirt/images
 image_size=1G
@@ -31,17 +32,17 @@ vcpus=1
 memory=2048
 #################################################################################
 
-while getopts u:d:p:s:f:c:i:v:m: flag
+while getopts u:i:d:p:s:f:c:o:v:m: flag
 do
     case "${flag}" in
         u) user_name=${OPTARG};;
-        u) image_name=${OPTARG};;
+        i) image_name=${OPTARG};;
         d) image_dir=${OPTARG};;
         p) image_path=${OPTARG};;
         s) image_size=${OPTARG};;
         f) image_format=${OPTARG};;
         c) cdrom_path=${OPTARG};;
-        i) cdrom_iso=${OPTARG};;
+        o) cdrom_iso=${OPTARG};;
         v) vcpus=${OPTARG};;
         m) memory=${OPTARG};;
     esac
