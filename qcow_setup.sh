@@ -6,8 +6,8 @@
 
 #################################################################################
 #
-#Run example: ./ssh_keygen.sh -u libvirt-qemu -n NixOS-01 -d NixOS-01 -p /opt/lib/libvirt/images -s 1G -f qcow2 -c /opt/lib/libvirt/iso -i firmware-11.2.0-amd64-netinst.iso -v 1 -m 2048
-#File:        ssh_keygen.sh
+#Run example: ./qcow_setup.sh -u libvirt-qemu -n NixOS-01 -d NixOS-01 -p /opt/lib/libvirt/images -s 1G -f qcow2 -c /opt/lib/libvirt/iso -i firmware-11.2.0-amd64-netinst.iso -v 1 -m 2048
+#File:        qcow_setup.sh
 #Date:        2022MAR08
 #Author:      William Blair
 #Contact:     williamblair333@gmail.com
