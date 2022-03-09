@@ -21,7 +21,7 @@
 #################################################################################
 
 user_name=libvirt-qemu
-image_name=NixOS-01
+image_name=Bullseye-01
 image_dir=$image_name
 image_path=/opt/lib/libvirt/images
 image_size=1G
