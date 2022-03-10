@@ -9,6 +9,9 @@
 #https://learnxinyminutes.com/docs/bash/
 #https://google.github.io/styleguide/shellguide.html
 
+#https://book.git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
+
+
 set -o errexit
 set -o nounset
 set -eu -o pipefail
