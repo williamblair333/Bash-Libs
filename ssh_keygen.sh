@@ -46,16 +46,18 @@ function main(){
     while getopts b:u:d:i:k:p: flag
     do
         case "${flag}" in
-            b) bits=${OPTARG};;
-            u) user_name=${OPTARG};;
-            d) dir_ssh=${OPTARG};;
-            i) ip_addr=${OPTARG};;
-            k) key_name=${OPTARG};;
-			h) Help
-			   exit;;
-           \?) # incorrect option
-               echo "Error: Invalid option"
-               exit;;			   
+            b)    bits=${OPTARG};;
+            u)    user_name=${OPTARG};;
+            d)    dir_ssh=${OPTARG};;
+            i)    ip_addr=${OPTARG};;
+            k)    key_name=${OPTARG};;
+			h)    Help
+			      exit;;
+			[?])  print >&2 "Usage: $0 [-b bitsize] [-u username] [-d .ssh] [-i 192.168.1.1] [-k id_rsa] [-h]"
+		          exit 1;;
+            \?)   # incorrect option
+                  echo "Error: Invalid option"
+                  exit;;			   
             *)
         esac
     done
