@@ -103,6 +103,8 @@ function main(){
     #create the key and automatically overwrite existing keys!
     #Let's hold off the nuclear option until we think it through
     #yes 'y' | ssh-keygen -f $HOME/$dir_ssh/$key_name -q -t rsa -N ''
+	#TODO just create the public key
+	#ssh-keygen -f "$HOME"/"$dir_ssh"/"$key_name" -y > "$HOME"/"$dir_ssh"/"$key_name".pub
 
     #check if $dir_ssh exists on target server. If not, create the directory and copy 
     #the public key.
