@@ -11,18 +11,41 @@
 
 #https://book.git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
 
-
 set -o errexit
 set -o nounset
 set -eu -o pipefail
 
+function Help()
+{
+   # Display Help
+   echo "Add description of the script functions here."
+   echo
+   echo "Syntax: ssh_keygen.sh  [-b|u|d|i|k|h]"
+   echo "options:"
+   echo "b     SSH bit strength.  Default is 2048"
+   echo "u     The user name to be used"
+   echo "d     The ssh directory name to use. Default is .ssh"
+   echo "i     IP address of remote server to send the SSH public key to"
+   echo "k     SSH key name to use"
+   echo "h     This help file"
+   echo 
+}
+
 while getopts u:d:i:k: flag
 do
     case "${flag}" in
-        n) user_name=${OPTARG};;
-        e) user_email={OPTARG};;
-        i) ip_addr=${OPTARG};;
-	    k) key_name=${OPTARG};;
+        n)    user_name=${OPTARG};;
+        e)    user_email={OPTARG};;
+        i)    ip_addr=${OPTARG};;
+	    k)    key_name=${OPTARG};;
+		h)    Help
+		      exit;;
+		[?])  print >&2 "Usage: $0 [-b bitsize] [-u username] [-d .ssh] [-i 192.168.1.1] [-k id_rsa] [-h]"
+		      exit 1;;
+        \?)   # incorrect option
+              echo "Error: Invalid option"
+              exit;;			   
+        *)
     esac
 done
 

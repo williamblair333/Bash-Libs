@@ -24,10 +24,26 @@ set -eu -o pipefail
 #
 #- copy the public key to the remote server
 #################################################################################
+
+function Help()
+{
+   # Display Help
+   echo "Add description of the script functions here."
+   echo
+   echo "Syntax: ssh_keygen.sh  [-b|u|d|i|k|h]"
+   echo "options:"
+   echo "b     SSH bit strength.  Default is 2048"
+   echo "u     The user name to be used"
+   echo "d     The ssh directory name to use. Default is .ssh"
+   echo "i     IP address of remote server to send the SSH public key to"
+   echo "k     SSH key name to use"
+   echo "h     This help file"
+   echo 
+}
+
 function main(){
 
-
-    while getopts b:u:d:i:k: flag
+    while getopts b:u:d:i:k:p: flag
     do
         case "${flag}" in
             b) bits=${OPTARG};;
@@ -35,6 +51,11 @@ function main(){
             d) dir_ssh=${OPTARG};;
             i) ip_addr=${OPTARG};;
             k) key_name=${OPTARG};;
+			h) Help
+			   exit;;
+           \?) # incorrect option
+               echo "Error: Invalid option"
+               exit;;			   
             *)
         esac
     done
