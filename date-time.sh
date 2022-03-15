@@ -7,35 +7,35 @@ yymmdd=$(date '+%Y-%m-%d')
 
 function yymmdd() {
   yymmdd=$(date '+%Y-%m-%d')
-  echo $yymmdd
+  echo "$yymmdd"
 }
 
 function year() {
   year=$(date '+%Y')
-  echo $year
+  echo "$year"
 }
 
 function month() {
  month=$(date '+%m')
- echo $month
+ echo "$month"
 }
 
 function day() {
  day=$(date '+%d')
- echo $day
+ echo "$day"
 }
 
 function hour() {
  hour=$(date '+%k')
- echo $hour
+ echo "$hour"
 }
 
 function minute() {
  minute_local=$(date '+%M')
- echo $minute_local
+ echo "$minute_local"
 }
 
 function seconds() {
  seconds=$(date '+%S')
- echo $seconds
+ echo "$seconds"
 }
