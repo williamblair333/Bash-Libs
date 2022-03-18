@@ -30,16 +30,16 @@ function Help() {
 #################################################################################
         website_name=my.site.org
 	bit_size=2048
-	country=US
-	state=Indiana
-	city=Carmel
-	org_name=Foobar
+	country=GB
+	state=London
+	city=London
+	org_name=Fu-bar
 	ou_name=some_ou
 	common_name="$server_name"
 	server_name=webserver.mysite.org
 	email_addr=joe.smith@gmail.com
 	password=""
-	company_name=Foobars
+	company_name=Fu-bar
 #################################################################################
 
 while getopts u:d:i:k: flag
@@ -67,7 +67,7 @@ done
 
 function csr_generate() {
     openssl req \
-	-new \
+        -new \
 	-newkey \
 	rsa:"$bit_size" \
 	-nodes \
@@ -75,7 +75,7 @@ function csr_generate() {
 	-out "$website_name".csr \
 	-subj "/C="$country"/ST="$state"/L="$city"/O="$org_name"/OU="$ou_name"/CN="$common_name""
 	
-  printf "%s\n" "Generating: " ""$website_name".key "$website_name".csr"
+    printf "%s\n" "Generating: " ""$website_name".key "$website_name".csr"
 }
 #################################################################################
 
