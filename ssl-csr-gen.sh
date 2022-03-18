@@ -46,7 +46,7 @@ while getopts u:d:i:k: flag
 do
     case "${flag}" in
         w)    website_name=${OPTARG};;
-        b)    bit_size={OPTARG};;
+        b)    bit_size=${OPTARG};;
         c)    country=${OPTARG};;
         s)    state=${OPTARG};;
 	t)    city=${OPTARG};;
