@@ -14,6 +14,8 @@
 set -o errexit
 set -o nounset
 set -eu -o pipefail
+#set -x
+#trap read debug
 
 function Help()
 {
