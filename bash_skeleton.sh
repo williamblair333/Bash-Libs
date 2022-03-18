@@ -93,4 +93,5 @@ function main(){
 
 
 # Invokes the main function
-main
+#main
+main "$@"
