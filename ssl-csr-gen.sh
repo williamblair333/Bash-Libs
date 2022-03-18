@@ -35,7 +35,7 @@ function Help() {
 	city=London
 	org_name=Fu-bar
 	ou_name=some_ou
-	common_name="$server_name"
+	common_name="$website_name"
 	server_name=webserver.mysite.org
 	email_addr=joe.smith@gmail.com
 	password=""
