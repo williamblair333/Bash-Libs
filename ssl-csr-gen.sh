@@ -47,15 +47,15 @@ do
         w)    website_name=${OPTARG};;
         b)    bit_size={OPTARG};;
         c)    country=${OPTARG};;
-		    s)    state=${OPTARG};;
-		    t)    city=${OPTARG};;
-		    n)    org_name=${OPTARG};;
-		    o)    ou_name=${OPTARG};;
-		    u)    user_name=${OPTARG};;
-		    h)    Help
-		    exit;;
-		    [?])  print >&2 "Usage: $0 [-b bitsize] [-u username] [-d .ssh] [-i 192.168.1.1] [-k id_rsa] [-h]"
-		    exit 1;;
+        s)    state=${OPTARG};;
+	t)    city=${OPTARG};;
+	n)    org_name=${OPTARG};;
+	o)    ou_name=${OPTARG};;
+	u)    user_name=${OPTARG};;
+	h)    Help
+	exit;;
+	[?])  print >&2 "Usage: $0 [-b bitsize] [-u username] [-d .ssh] [-i 192.168.1.1] [-k id_rsa] [-h]"
+	exit 1;;
         \?)   # incorrect option
               echo "Error: Invalid option"
               exit;;			   
