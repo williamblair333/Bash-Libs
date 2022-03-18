@@ -28,7 +28,7 @@ function Help() {
    echo 
 }
 #################################################################################
-  website_name=my.site.org
+        website_name=my.site.org
 	bit_size=2048
 	country=US
 	state=Indiana
