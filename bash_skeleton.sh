@@ -39,11 +39,11 @@ do
         n)    user_name=${OPTARG};;
         e)    user_email={OPTARG};;
         i)    ip_addr=${OPTARG};;
-	    k)    key_name=${OPTARG};;
-		h)    Help
-		      exit;;
-		[?])  print >&2 "Usage: $0 [-b bitsize] [-u username] [-d .ssh] [-i 192.168.1.1] [-k id_rsa] [-h]"
-		      exit 1;;
+	k)    key_name=${OPTARG};;
+	h)    Help
+	exit;;
+	[?])  print >&2 "Usage: $0 [-b bitsize] [-u username] [-d .ssh] [-i 192.168.1.1] [-k id_rsa] [-h]"
+	      exit 1;;
         \?)   # incorrect option
               echo "Error: Invalid option"
               exit;;			   
@@ -83,14 +83,12 @@ function complement_age(){
   fi
 }
 
-
 function main(){
   # The only function that is not "pure"
   # This function is tightly coupled to the script
   complement_name "$_USER_NAME"
   complement_age "$_USER_NAME" "$_USER_AGE"
 }
-
 
 # Invokes the main function
 #main
