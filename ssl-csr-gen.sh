@@ -40,6 +40,7 @@ function Help() {
 	email_addr=joe.smith@gmail.com
 	password=""
 	company_name=Foobars
+#################################################################################
 
 while getopts u:d:i:k: flag
 do
@@ -99,3 +100,4 @@ function main() {
 # Invokes the main function
 #main
 main "$@"
+#################################################################################
