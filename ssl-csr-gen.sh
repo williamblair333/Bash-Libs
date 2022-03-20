@@ -31,17 +31,14 @@ function Help() {
    echo 
 }
 #################################################################################
-    website_name=my.site.org
-	bit_size=2048
-	country=GB
-	state=London
-	city=London
-	org_name=Fu-bar
-	ou_name=some_ou
-	common_name="$website_name"
-	#email_addr=""
-	#password=""
-	#company_name=""
+website_name=my.site.org
+bit_size=2048
+country=GB
+state=London
+city=London
+org_name=Fu-bar
+ou_name=some_ou
+common_name="$website_name"
 #################################################################################
 
 while getopts w:b:c:s:t:n:o:u:h: flag
@@ -70,7 +67,7 @@ done
 
 function csr_generate() {
     openssl req \
-        -new \
+    -new \
 	-newkey \
 	rsa:"$bit_size" \
 	-nodes \
