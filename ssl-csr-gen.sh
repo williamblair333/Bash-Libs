@@ -39,12 +39,12 @@ function Help() {
 	org_name=Fu-bar
 	ou_name=some_ou
 	common_name="$website_name"
-	email_addr=""
-	password=""
-	company_name=""
+	#email_addr=""
+	#password=""
+	#company_name=""
 #################################################################################
 
-while getopts u:d:i:k: flag
+while getopts w:b:c:s:t:n:o:u:h: flag
 do
     case "${flag}" in
         w)    website_name=${OPTARG};;
@@ -76,30 +76,29 @@ function csr_generate() {
 	-nodes \
 	-keyout "$website_name".key \
 	-out "$website_name".csr \
-	-subj "/C="$country"/ST="$state"/L="$city"/O="$org_name"/OU="$ou_name"/CN="$common_name""
+	-subj "/C=""$country""/ST=""$state""/L=""$city""/O=""$org_name""/OU=""$ou_name""/CN=""$common_name"""
 	
-    printf "%s\n" "Generating: " ""$website_name".key "$website_name".csr"
+    printf "%s\n" "Generating: " """$website_name"".key ""$website_name"".csr"
 }
 #################################################################################
 
 function csr_setup() {
+    printf "%s\n" "csr_setup"
     #Make directories here
-	  #do Error handling
+    #do Error handling
 }
 #################################################################################
 
 function csr_install() {
+    printf "%s\n" "csr_install"
     #Create the apache2 include file with cat piping
 }
 #################################################################################
 
 function main() {
-  # The only function that is not "pure"
-  # This function is tightly coupled to the script
-  #call your other functions here... 
-}
+    csr_generate
 #################################################################################
-
+}
 # Invokes the main function
 #main
 main "$@"
