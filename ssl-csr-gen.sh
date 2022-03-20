@@ -15,15 +15,18 @@ set -eu -o pipefail
 
 function Help() {
    # Display Help
-   echo "Add description of the script functions here."
+   echo "SSL CSR Generation Script"
    echo
-   echo "Syntax: ssh_keygen.sh  [-b|u|d|i|k|h]"
+   echo "Syntax: ssl-csr-gen.sh  [-w|b|c|s|t|n|o|u|h]"
    echo "options:"
-   echo "b     SSH bit strength.  Default is 2048"
-   echo "u     The user name to be used"
-   echo "d     The ssh directory name to use. Default is .ssh"
-   echo "i     IP address of remote server to send the SSH public key to"
-   echo "k     SSH key name to use"
+   echo "w     Website FQDN"
+   echo "b     Bit size, default is 2048"
+   echo "c     Country"
+   echo "s     State"
+   echo "t     City"
+   echo "n     ORG Name"
+   echo "o     OU Name"
+   echo "m     Common Name, default is $website_name"
    echo "h     This help file"
    echo 
 }
@@ -36,10 +39,9 @@ function Help() {
 	org_name=Fu-bar
 	ou_name=some_ou
 	common_name="$website_name"
-	server_name=webserver.mysite.org
-	email_addr=joe.smith@gmail.com
+	email_addr=""
 	password=""
-	company_name=Fu-bar
+	company_name=""
 #################################################################################
 
 while getopts u:d:i:k: flag
@@ -52,10 +54,11 @@ do
 	    t)    city=${OPTARG};;
         n)    org_name=${OPTARG};;
 	    o)    ou_name=${OPTARG};;
-	    u)    user_name=${OPTARG};;
+	    u)    common_name=${OPTARG};;
 	    h)    Help
 	    exit;;
-	    [?])  print >&2 "Usage: $0 [-b bitsize] [-u username] [-d .ssh] [-i 192.168.1.1] [-k id_rsa] [-h]"
+	    [?])  print >&2 "Usage: $0 [-w Website FQDN] [-c Country] [-s State] \
+	          [-t City] [-n ORG Name] [-o OU Name] [-u Common Name]"
 	    exit 1;;
         \?)   # incorrect option
               echo "Error: Invalid option"
