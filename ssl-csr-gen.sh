@@ -48,15 +48,14 @@ do
         b)    bit_size=${OPTARG};;
         c)    country=${OPTARG};;
         s)    state=${OPTARG};;
-	    t)    city=${OPTARG};;
+        t)    city=${OPTARG};;
         n)    org_name=${OPTARG};;
-	    o)    ou_name=${OPTARG};;
-	    u)    common_name=${OPTARG};;
-	    h)    Help
-	    exit;;
-	    [?])  print >&2 "Usage: $0 [-w Website FQDN] [-c Country] [-s State] \
-	          [-t City] [-n ORG Name] [-o OU Name] [-u Common Name]"
-	    exit 1;;
+        o)    ou_name=${OPTARG};;
+        u)    common_name=${OPTARG};;
+        h)    Help
+              exit;;
+        [?])  print >&2 "Usage: $0 [-w Website FQDN] [-c Country] [-s State] [-t City] [-n ORG Name] [-o OU Name] [-u Common Name]"
+              exit 1;;
         \?)   # incorrect option
               echo "Error: Invalid option"
               exit;;			   
