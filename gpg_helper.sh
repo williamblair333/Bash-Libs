@@ -17,7 +17,7 @@ function Help() {
    echo "options:"
    echo "a     Algorithm type, default is aes256"
    echo "f     Filename, default is my_home"
-   echo "p     passphrase, default is !@$!@#$@#$ADFlkjoij899978IOf1234234"
+   echo "p     passphrase, default is !@!@#@#ADFlkjoij899978IOf1234234"
    echo "s     Source file or directory, default is $HOME"
    echo "t     Directory target, default ."
    echo "e     Encrypt Switch"
@@ -28,7 +28,7 @@ function Help() {
 
 algorithm=aes256
 file_name=my_home
-pass_phrase='!@$!@#$@#$ADFlkjoij899978IOf1234234'
+pass_phrase='!@!@#@#ADFlkjoij899978IOf1234234'
 source=$HOME
 dir_target="."
 #################################################################################
@@ -39,15 +39,20 @@ export GPG_TTY
 #################################################################################
 
 function gpg_encrypt() {
-    tar czvpf - "$source" | gpg \
+    tar czvpf - "$source" \
+    | gpg \
+    --batch --yes \
+    --no-tty \
+    --passphrase="$pass_phrase" \
     --symmetric \
+    --pinentry-mode=loopback \
     --cipher-algo "$algorithm" \
-    --output "$dir_target"/"$filename".tar.gz
+    --output "$dir_target"/"$file_name".tar.gz
 }
 #################################################################################
 
 function gpg_decrypt() {
-    gpg --decrypt "$dir_target"/"$filename".tar.gz | tar xzvf -
+    gpg --decrypt "$dir_target"/"$file_name".tar.gz | tar xzvf -
 }
 #################################################################################
 
