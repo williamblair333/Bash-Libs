@@ -6,6 +6,22 @@ set -eu -o pipefail
 
 #set -x
 #trap read debug
+
+#################################################################################
+#
+#Run example: ./gpg_helper.sh -e "yes" -s "$HOME/src_file" -p 'L0ckdmeUp1' -a "aes256" -t "." -f "enc_src_file"
+#File:        gpg_helper.sh
+#Date:        updated 2022APR16
+#Author:      William Blair
+#Contact:     williamblair333@gmail.com
+#Tested on:   Debian 10
+#To test:     Ubuntu 20+
+#
+#This script is intended to do the following:
+#
+#- encrypt a tar.gz on the fly using a passphrase
+#
+#- TODO add more gpg functionality like keys and better error handling
 #################################################################################
 
 function Help() 
@@ -98,7 +114,6 @@ function main()
     fi
     
     Help
-    
 }
 
 main "$@"
