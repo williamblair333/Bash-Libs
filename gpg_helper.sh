@@ -6,88 +6,99 @@ set -eu -o pipefail
 
 #set -x
 #trap read debug
-#It's not finished.
-
 #################################################################################
 
-algorithm=aes256
-file_name=my_home
-pass_phrase='!@!@#@#ADFlkjoij899978IOf1234234'
-source=$HOME
-dir_target="."
-#################################################################################
-
-#This corrects gpg: error creating passphrase: Operation cancelled
-GPG_TTY=$(tty)
-export GPG_TTY
-#################################################################################
-
-function Help() {
-   # Display Help
-   echo "GPG Encryption Helper Script"
-   echo
-   echo "Syntax: gpg-helper.sh  [-a|f|p|s|t|e|d]"
-   echo "options:"
-   echo "a     Algorithm type, default is aes256"
-   echo "f     Filename, default is my_home"
-   echo "p     passphrase, default is !@!@#@#ADFlkjoij899978IOf1234234"
-   echo "s     Source file or directory, default is $HOME"
-   echo "t     Directory target, default ."
-   echo "e     Encrypt Switch"
-   echo "d     Decrypt Switch"   
-   echo "h     Help file" 
+function Help() 
+{
+    # Display Help
+    echo "GPG Encryption Helper Script"
+    echo
+    echo "Syntax: gpg-helper.sh  [-a|f|p|s|t|e|d]"
+    echo "options:"
+    echo "a     Algorithm type, ex. aes256"
+    echo "f     Filename, default is my_home"
+    echo "p     passphrase, default is !@!@#@#ADFlkjoij899978IOf1234234"
+    echo "s     Source file or directory, default is $HOME"
+    echo "t     Directory target, default ."
+    echo "e     Encrypt Switch -e 'yes' to encrypt"
+    echo "d     Decrypt Switch -d 'yes' to decrypt"   
+    echo "h     Help file" 
 }
-#Run example: ./gpg_helper.sh -a 2048 -f my_file.gpg -p 'Encryptme123' -s /home/bill -t /home/bill -e
 #################################################################################
-function main() {
 
-    while getopts a:f:p:s:t:e:d:h: flag
-    do
-        case "${flag}" in
-            a)    algorithm=${OPTARG};;
-            f)    file_name=${OPTARG};;
-            p)    pass_phrase=${OPTARG};;
-            s)    source=${OPTARG};;        
-            t)    dir_target=${OPTARG};;
-            e)    gpg_encrypt
-                  exit;;
-            d)    gpg_decrypt
-                  exit;;
-            h)    Help
-                  exit;;
-            [?])  print >&2 "Usage: $0 \
-                  [-a Algorithm]       \
-                  [-f Filename]        \
-                  [-p Passphrase]
-                  "
-                  exit 1;;
-            \?)   # incorrect option
-                  echo "Error: Invalid option"
-                  exit;;			   
-            *)
+function gpg_encrypt() 
+{
+    tar czvpf - "$source" \
+    | gpg \
+    --batch --yes \
+    --no-tty \
+    --passphrase="$pass_phrase" \
+    --symmetric \
+    --pinentry-mode=loopback \
+    --cipher-algo "$algorithm" \
+    --output "$dir_target"/"$file_name".tar.gz
+}
+#################################################################################
+
+function gpg_decrypt() 
+{
+    gpg \
+    --passphrase="$pass_phrase" \
+    --pinentry-mode=loopback \
+    --decrypt "$dir_target"/"$file_name".tar.gz \
+    | tar xzvf -
+}
+#################################################################################
+function main() 
+{
+
+    encrypt="no"
+    decrypt="no"
+
+    #This corrects gpg: error creating passphrase: Operation cancelled
+    GPG_TTY=$(tty)
+    export GPG_TTY
+#################################################################################
+
+    while getopts ":s:p:a:t:f:e:d:h" option;
+        
+      do
+        #case "${flag}" in
+        case "$option" in
+          s)  source="$OPTARG";;          
+          p)  pass_phrase="$OPTARG";;
+          a)  algorithm="$OPTARG";;
+          t)  dir_target="$OPTARG";;
+          f)  file_name="$OPTARG";;
+          e)  encrypt="$OPTARG" ;;
+          d)  decrypt="$OPTARG" ;;
+          h)  Help ;;
+
         esac
     done
 #################################################################################
-    function gpg_encrypt() {
-        tar czvpf - "$source" \
-        | gpg \
-        --batch --yes \
-        --no-tty \
-        --passphrase="$pass_phrase" \
-        --symmetric \
-        --pinentry-mode=loopback \
-        --cipher-algo "$algorithm" \
-        --output "$dir_target"/"$file_name".tar.gz
-    }
-#################################################################################
 
-    function gpg_decrypt() {
-        gpg --decrypt "$dir_target"/"$file_name".tar.gz | tar xzvf -
+    if [ "$encrypt" == "yes" ] && [ "$decrypt" == "yes" ]; then
+        echo "Invalid arguments.  You can either encrypt or decrypt, not both."
+        exit
+
+    elif [ "$encrypt" == "yes" ]; then
+        decrypt="no"
+        echo "doing gpg_encrypt"
+        gpg_encrypt
+        exit
+        
+    elif [ "$decrypt" == "yes" ]; then
+    {
+        echo "doing gpg_encrypt"
+        gpg_decrypt
+        exit
     }
-#################################################################################
-    printf "%s\n" "GPG Helper script starting..."
-    # Invokes the main function
-    #main
-    #main "$@"
+    fi
+    
+    echo "Example: ./gpg_helper.sh -e "yes" -s "$HOME/github" -p 'L0ckdmeUp1' -a "aes256" -t "." -f "enc_github" "
+    
 }
+
+main "$@"
 #################################################################################
