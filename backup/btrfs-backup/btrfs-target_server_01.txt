@@ -1,4 +1,0 @@
-server_01.conf
-container_lxc_01.conf
-container_docker_01.conf
-vm_01.conf
