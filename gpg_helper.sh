@@ -73,6 +73,7 @@ function main()
           e)  encrypt="$OPTARG" ;;
           d)  decrypt="$OPTARG" ;;
           h)  Help ;;
+          *) 
 
         esac
     done
@@ -96,7 +97,7 @@ function main()
     }
     fi
     
-    echo "Example: ./gpg_helper.sh -e "yes" -s "$HOME/github" -p 'L0ckdmeUp1' -a "aes256" -t "." -f "enc_github" "
+    Help
     
 }
 
