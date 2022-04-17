@@ -16,6 +16,12 @@ set -eu -o pipefail
 #https://www.reddit.com/r/bash/comments/jkblav/
 #double_dash_parameters_in_bash_script/
 
+#https://stackoverflow.com/questions/9271381/how-can-i-parse-
+#long-form-arguments-in-shell
+
+https://stackoverflow.com/questions/402377/
+#using-getopts-to-process-long-and-short-command-line-options
+#Arvid Requate 
 
 C_OPT=0
 DIR=`pwd`
