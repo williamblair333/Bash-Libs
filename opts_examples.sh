@@ -13,6 +13,9 @@ set -eu -o pipefail
 #https://www.livefirelabs.com/unix_tip_trick_shell_script/
 #unix_shell_scripting/
 #examples-of-how-to-pass-shell-script-arguments-using-shift-and-getopts.htm
+#https://www.reddit.com/r/bash/comments/jkblav/
+#double_dash_parameters_in_bash_script/
+
 
 C_OPT=0
 DIR=`pwd`
