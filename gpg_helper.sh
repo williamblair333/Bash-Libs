@@ -107,7 +107,7 @@ function main()
         
     elif [ "$decrypt" == "yes" ]; then
     {
-        echo "doing gpg_encrypt"
+        echo "doing gpg_decrypt"
         gpg_decrypt
         exit
     }
