@@ -7,8 +7,6 @@ set -eu -o pipefail
 #################################################################################
 #
 #Run example: ./far.sh -l "unique_string_here" -i "test.txt" -j "+2" -f "string to find" -r "string_to_replace" -s "g"
-	sed -i "$(( $(sed -n '/$line_search/'= $file_input) $line_jump ))s/$string_find/$string_replace/$replace_scope" $file_input
-	#sed -i "$(( $(sed -n '/bill_xm31_uto_ren_01_sfp/'= test.txt) + 2 ))s/#//g" test.txt
 #File:        ./far.sh
 #Date:        2022MAY04
 #Author:      William Blair
@@ -70,7 +68,6 @@ function main()
 	fi
 	
 	sed -i "$(( $(sed -n '/$line_search/'= $file_input) $line_jump ))s/$string_find/$string_replace/$replace_scope" $file_input
-	#sed -i "$(( $(sed -n '/bill_xm31_uto_ren_01_sfp/'= test.txt) + 2 ))s/#//g" test.txt
 }
 #################################################################################
 
