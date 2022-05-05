@@ -28,10 +28,10 @@ function Help()
     echo "usage: -j how many lines to jump up or down. Ex. +2 or -2, optional"
     echo "usage: -f string to find, required"
     echo "usage: -r string to replace, optional"
-	echo "usage: -s scope of replacement, Ex. g for all instances.  See man sed" \
+    echo "usage: -s scope of replacement, Ex. g for all instances.  See man sed" \
     echo "for more examples, optional"
-	echo "usage: -h this help file"
-	echo
+    echo "usage: -h this help file"
+    echo
 }
 #################################################################################
 
