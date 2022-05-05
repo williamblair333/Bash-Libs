@@ -64,9 +64,8 @@ function main()
 		echo 'hello'
 	fi
 	
-	sed -i "$(( $(sed -n '/$line_search/'= $file_input) $line_jump ))s/$string_find/$string_replace/$replace_scope" $file_input
-	echo "sed -i "$(( $(sed -n "/$line_search/"= $file_input) $line_jump )) \
-	s/$string_find/$string_replace/$replace_scope" $file_input"
+	sed -i "$(( $(sed -n "/$line_search/"= $file_input) $line_jump )) \
+	s/$string_find/$string_replace/$replace_scope" $file_input
 }
 #################################################################################
 
