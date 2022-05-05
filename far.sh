@@ -42,7 +42,7 @@ function main()
           case "$option" in
               
               i)  file_input="$OPTARG";;
-			  l)  line_search="$OPTARG";;
+	      l)  line_search="$OPTARG";;
               f)  string_find="$OPTARG";;
               r)  string_replace="$OPTARG";;
               s)  replace_scope="$OPTARG";;
@@ -54,12 +54,10 @@ function main()
                   exit;;
          esac
     done
-    
     if [[ $# -lt 1 ]]; then
         Help
     fi
-	
-	sed_check=$(find /usr/bin -name 'sede' | awk -F / '{print $4}')
+    sed_check=$(find /usr/bin -name 'sede' | awk -F / '{print $4}')
 	
 	if [ -z "$sed_check" ]; then
 	    echo 'Sed not found! Exiting'
@@ -67,7 +65,8 @@ function main()
 		echo 'hello'
 	fi
 	
-	sed -i "$(( $(sed -n '/$line_search/'= $file_input) $line_jump ))s/$string_find/$string_replace/$replace_scope" $file_input
+	sed -i "$(( $(sed -n '/$line_search/'= $file_input) $line_jump )) \
+	s/$string_find/$string_replace/$replace_scope" $file_input
 }
 #################################################################################
 
