@@ -5,7 +5,7 @@ set -eu -o pipefail
 #set -x
 #trap read debug
 #################################################################################
-#
+#NOT WORKING YET
 #Run example: ./far.sh -l "unique_string_here" -i "test.txt" -j "+2" -f "string to find" -r "string_to_replace" -s "g"
 #File:        ./far.sh
 #Date:        2022MAY04
