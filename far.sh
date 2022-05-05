@@ -37,6 +37,13 @@ function Help()
 
 function main() 
 {
+    line_search="blank"
+	file_input="blank"
+	line_jump="blank"
+	string_find"blank"
+	string_replace="blank"
+	replace_scope="blank"
+	
     #while getopts ":l:i:f:j:f:r:s:h" option;
 	while getopts ":l:i:f:j:f:r:s:h" option;
       do
