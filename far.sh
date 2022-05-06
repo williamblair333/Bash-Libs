@@ -25,11 +25,12 @@ function Help()
     echo
     echo "usage: -l line in file to search for, required"
     echo "usage: -i input file to make changes to, required"
-    echo "usage: -j how many lines to jump up or down. Ex. +2 or -2, optional"
+    echo "usage: -j how many lines to jump up or down. Ex. +2 or -2, required"
+	echo "but can be blank like \"\" "
     echo "usage: -f string to find, required"
-    echo "usage: -r string to replace, optional"
-    echo "usage: -s scope of replacement, Ex. g for all instances.  See man sed" \
-    echo "for more examples, optional"
+    echo "usage: -r string to replace, required, but can be blank like \"\" "
+    echo "usage: -s scope of replacement, Ex. g for all instances.  See man sed "
+    echo "for more examples, required"
     echo "usage: -h this help file"
     echo
 }
