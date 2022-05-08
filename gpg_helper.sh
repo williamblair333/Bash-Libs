@@ -110,8 +110,6 @@ function main()
         exit
     }
     fi
-    
-    Help
 }
 
 main "$@"
