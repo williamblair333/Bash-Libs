@@ -26,7 +26,7 @@ function Help() {
    echo "t     City"
    echo "n     ORG Name"
    echo "o     OU Name"
-   echo "m     Common Name, default is $website_name"
+   echo "u     Common Name, default is $website_name"
    echo "h     This help file"
    echo 
 }
@@ -66,15 +66,17 @@ done
 
 function csr_generate() {
     openssl req \
-    -new \
-	-newkey \
-	rsa:"$bit_size" \
-	-nodes \
+      -x509 \
+      -new \
+      -newkey rsa:"$bit_size" \
+      -sha256 \
+      -days 3650 \
+      -nodes \
 	-keyout "$website_name".key \
-	-out "$website_name".csr \
+	-out "$website_name".crt \
 	-subj "/C=""$country""/ST=""$state""/L=""$city""/O=""$org_name""/OU=""$ou_name""/CN=""$common_name"""
-	
-    printf "%s\n" "Generating: " """$website_name"".key ""$website_name"".csr"
+
+    printf "%s\n" "Generating: " """$website_name"".key ""$website_name"".crt"
 }
 #################################################################################
 
