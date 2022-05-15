@@ -1,16 +1,30 @@
 #!/usr/bin/env bash
 
-#It's not finished.
-
-#https://www.ssldragon.com/blog/how-to-install-an-ssl-certificate-on-debian/
-#https://www.shellhacks.com/create-csr-openssl-without-prompt-non-interactive/
-#https://docs.cpanel.net/ea4/apache/modify-apache-virtual-hosts-with-include-files/
-
 set -o errexit
 set -o nounset
 set -eu -o pipefail
 #set -x
 #trap read debug
+#################################################################################
+#
+#Run example: ./ssl-ss-gen.sh
+#Date:        2022MAY14
+#Author:      William Blair
+#Contact:     williamblair333@gmail.com
+#Tested on:   Debian 11
+
+#This script is intended to do the following:
+#create the following keys/certs:  .csr, .crt, .key, priv/pub.pem,
+################################################################################
+
+website_name=my.site.org
+bit_size=2048
+country=GB
+state=London
+city=London
+org_name=Fu-bar
+ou_name=some_ou
+common_name="$website_name"
 #################################################################################
 
 function Help() {
@@ -30,15 +44,6 @@ function Help() {
    echo "h     This help file"
    echo 
 }
-#################################################################################
-website_name=my.site.org
-bit_size=2048
-country=GB
-state=London
-city=London
-org_name=Fu-bar
-ou_name=some_ou
-common_name="$website_name"
 #################################################################################
 
 while getopts w:b:c:s:t:n:o:u:h: flag
@@ -72,10 +77,22 @@ function csr_generate() {
       -sha256 \
       -days 3650 \
       -nodes \
-	-keyout "$website_name".key \
-	-out "$website_name".crt \
-	-subj "/C=""$country""/ST=""$state""/L=""$city""/O=""$org_name""/OU=""$ou_name""/CN=""$common_name"""
+      -keyout "$website_name".key \
+      -out "$website_name".crt \
+      -subj "/C=""$country""/ST=""$state""/L=""$city""/O=""$org_name""/OU=""$ou_name""/CN=""$common_name"""
 
+    openssl rsa \
+      -in "$website_name".key \
+      -text > "$website_name"_private.pem
+      
+    openssl x509 -inform PEM \
+      -in "$website_name".crt > "$website_name"_public.pem
+    
+    openssl req \
+      -new \
+      -key "$website_name".key \
+      -out "$website_name".csr
+    
     printf "%s\n" "Generating: " """$website_name"".key ""$website_name"".crt"
 }
 #################################################################################
