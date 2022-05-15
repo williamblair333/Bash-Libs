@@ -7,7 +7,8 @@ set -eu -o pipefail
 #trap read debug
 #################################################################################
 #
-#Run example: ./ssl-ss-gen.sh
+#Run example: ./ssl-ss-gen.sh -w my.server.org -b 2048 -c US -s Indiana -t Indianapolis -n NA -u my.server.org
+
 #Date:        2022MAY14
 #Author:      William Blair
 #Contact:     williamblair333@gmail.com
