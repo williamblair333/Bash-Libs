@@ -25,12 +25,12 @@ function Help()
     echo
     echo "usage: -l line in file to search for, required"
     echo "usage: -i input file to make changes to, required"
-    echo "usage: -j how many lines to jump up or down. Ex. +2 or -2, required"
-	echo "but can be blank like \"\" "
+    echo "usage: -j how many lines to jump up or down. Ex. +2 or -2, optional"
+	echo "          but can be blank like \"\" "
     echo "usage: -f string to find, required"
-    echo "usage: -r string to replace, required, but can be blank like \"\" "
-    echo "usage: -s scope of replacement, Ex. g for all instances.  See man sed "
-    echo "for more examples, required"
+    echo "usage: -r string to replace, optional, but can be blank like \"\" "
+    echo "usage: -s scope of replacement, Defaults to g.  See man sed "
+    echo "          for more examples, required"
     echo "usage: -h this help file"
     echo
 }
@@ -38,14 +38,13 @@ function Help()
 
 function main() 
 {
-    line_search="blank"
-	file_input="blank"
-	line_jump="blank"
-	string_find"blank"
-	string_replace="blank"
-	replace_scope="blank"
+    line_search=""
+	file_input=""
+	line_jump=""
+	string_find=""
+	string_replace=""
+	replace_scope="g"
 	
-    #while getopts ":l:i:f:j:f:r:s:h" option;
 	while getopts ":l:i:f:j:f:r:s:h" option;
       do
           case "$option" in
@@ -63,6 +62,7 @@ function main()
     done
     if [[ $# -lt 1 ]]; then
         Help
+		exit
     fi
     sed_check=$(find /usr/bin -name 'sed' | awk -F / '{print $4}')
 	
