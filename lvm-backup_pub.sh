@@ -84,8 +84,6 @@ function create_snapshot() {
     #lvcreate -s -n <snapshot_name> -L <size> <volume_group>/<logical_volume>
     #if snapshot_name exists, delete it
     [[ -e /dev/$1/$2 ]] && destroy_snapshot $5 $3
-    echo $4
-    echo lvcreate -s -n $3 -L $4 $5/$6
     lvcreate -s -n $3 -L $4 $5/$6
 }
 
@@ -131,7 +129,6 @@ function main() {
         if control_filter "$lv_control" " " "$name"; then
             echo ---------------------------------------------------------------
             echo "Processing volume in list..."
-            #mount_path=/mnt/vmdisk
             mount_point="$mount_path"/"$name"-backup
             [[ ! -d "$mount_point" ]] && mkdir "$mount_point"
                     
@@ -143,9 +140,10 @@ function main() {
 			#  by auto adding partition information (sda), then tar, compress and
 			#  and send to backup target server
             if [ -z "$part_info" ]; then
-                echo "Backing up single partition"
+                echo "Backing up single partition for ""$name"-sda-"$DATE"
                 create_part_backup "$v_group" "$name" /dev/sda "$mount_point"/"$name"-sda-"$DATE" || true
             else
+			    echo "$name"-sda-"$DATE"			
 			#if more than one partion in logical volume, tar, compress and ship
 			#  all of them to backup target server
                 while IFS= read -r part; do
@@ -153,6 +151,7 @@ function main() {
 					create_part_backup "$v_group" "$name" "$part" "$mount_point"/"$name"-"$part_num"-"$DATE" || true
                 done <<< "$part_info"
             fi
+			echo ---------------------------------------------------------------
 			#scp with ssh keys
 			#scp "$mount_point"/* "$backup_user"@"$backup_ip":/"$backup_folder"/"$name"-backup/
 			#scp with password
@@ -162,7 +161,6 @@ function main() {
 				
 			rm -r "$mount_point"/*
             destroy_snapshot "$v_group" "$name"-backup
-            echo ---------------------------------------------------------------
         else
             echo "Skipping ""$name"
         fi
