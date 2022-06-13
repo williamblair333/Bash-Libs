@@ -27,6 +27,14 @@ set -o nounset
 #-   comment out the scp section if you're using ssh keys or supplying a password
 #################################################################################
 
+lv_control="lvtest0"
+backup_ip="192.168.1.10"
+backup_user="username"
+backup_folder="mnt/backup_folder"
+mount_path="/mnt/lvm_folder"
+backup_user_pwd='password_goes_here'
+DATE=$(date '+%Y-%m-%d')
+
 function Help() 
 {
     # Display Help
@@ -38,18 +46,10 @@ function Help()
     echo "u     Remote Backup Target Username"
     echo "f     Remote Backup Target Folder"
     echo "m     Local Backup Target Folder"
-	echo "l     Logical Volume Target List"
+    echo "l     Logical Volume Target List"
     echo "p     Remote Backup Target Username Password"
-	echo "h     Help file" 
+    echo "h     Help file" 
 }
-
-lv_control="lvtest0"
-backup_ip="192.168.1.10"
-backup_user="username"
-backup_folder="mnt/backup_folder"
-mount_path="/mnt/lvm_folder"
-backup_user_pwd='password_goes_here'
-DATE=$(date '+%Y-%m-%d')
 
 function control_filter() {
     LIST=$1
@@ -109,7 +109,7 @@ function main() {
           m)  mount_path="$OPTARG";;
           l)  lv_control="$OPTARG";;
           p)  backup_user_pwd="$OPTARG";;
-		  h)  Help ;;
+          h)  Help ;;
           *) 
         esac
     done
@@ -117,7 +117,7 @@ function main() {
     #require at least one argument
     if [[ $# -lt 1 ]]; then
         Help
-		exit 1
+        exit 1
     fi
 
     get_lv_info
@@ -125,7 +125,7 @@ function main() {
     get_lv_info
 
     while IFS= read -r name; do
-	    #if the logical volume exists and is present in lv_control variable 
+        #if the logical volume exists and is present in lv_control variable 
         if control_filter "$lv_control" " " "$name"; then
             echo ---------------------------------------------------------------
             echo "Processing volume in list..."
@@ -137,29 +137,29 @@ function main() {
             get_part_list "$v_group" "$name"-backup
 
             #some logical volumes only have one partition and it must be addressed 
-			#  by auto adding partition information (sda), then tar, compress and
-			#  and send to backup target server
+            #  by auto adding partition information (sda), then tar, compress and
+            #  and send to backup target server
             if [ -z "$part_info" ]; then
                 echo "Backing up single partition for ""$name"-sda-"$DATE"
                 create_part_backup "$v_group" "$name" /dev/sda "$mount_point"/"$name"-sda-"$DATE" || true
             else
-			    echo "$name"-sda-"$DATE"			
-			#if more than one partion in logical volume, tar, compress and ship
-			#  all of them to backup target server
+                echo "$name"-sda-"$DATE"            
+            #if more than one partion in logical volume, tar, compress and ship
+            #  all of them to backup target server
                 while IFS= read -r part; do
                     part_num=$(echo "$part" | awk -v FS=/ '{print$ 3}') && echo "$part"
-					create_part_backup "$v_group" "$name" "$part" "$mount_point"/"$name"-"$part_num"-"$DATE" || true
+                    create_part_backup "$v_group" "$name" "$part" "$mount_point"/"$name"-"$part_num"-"$DATE" || true
                 done <<< "$part_info"
             fi
-			echo ---------------------------------------------------------------
-			#scp with ssh keys
-			#scp "$mount_point"/* "$backup_user"@"$backup_ip":/"$backup_folder"/"$name"-backup/
-			#scp with password
-			sshpass -p "$backup_user_pwd" \
-			    scp "$mount_point"/* \
-				"$backup_user"@"$backup_ip":/"$backup_folder"/"$name"-backup/ \
-				
-			rm -r "$mount_point"/*
+            echo ---------------------------------------------------------------
+            #scp with ssh keys
+            #scp "$mount_point"/* "$backup_user"@"$backup_ip":/"$backup_folder"/"$name"-backup/
+            #scp with password
+            sshpass -p "$backup_user_pwd" \
+                scp "$mount_point"/* \
+                "$backup_user"@"$backup_ip":/"$backup_folder"/"$name"-backup/ \
+                
+            rm -r "$mount_point"/*
             destroy_snapshot "$v_group" "$name"-backup
         else
             echo "Skipping ""$name"
