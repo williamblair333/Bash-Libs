@@ -16,6 +16,20 @@ set -eu -o pipefail
 #https://www.reddit.com/r/bash/comments/jkblav/
 #double_dash_parameters_in_bash_script/
 
+#https://www.golinuxcloud.com/bash-getopts/
+#Where should we use colon in optstring?
+
+#If first character in optstring is a colon (:, the shell
+#  variable OPTARG is set to the option character found, but no
+#  output is written to standard error;
+
+#If first character has no colon, variable OPTARG is unset and a
+#diagnostic message is written to standard error
+
+#If a letter is followed by a colon, the option is expected
+#  to have an argument, or group of arguments, which must be
+#  separated from it by white space.
+
 #https://stackoverflow.com/questions/9271381/how-can-i-parse-
 #long-form-arguments-in-shell
 

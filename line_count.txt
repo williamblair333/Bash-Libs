@@ -16,11 +16,6 @@ sed -i "$(( $(sed -n "/bill_dm31_hyp_inf_01_rf/"= /etc/dhcp/inc_sub_192.168.4x.0
 sed -i "$(( $(sed -n "/$line_search/"= $file_input) $line_jump ))s/$string_find/$string_replace/$replace_scope" $file_input
 
 
-
-
-
-
-
 ######################################################################################################################################################################################################	
 
 	Log to Console                ...
