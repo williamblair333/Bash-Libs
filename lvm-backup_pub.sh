@@ -23,6 +23,7 @@ set -o nounset
 #- scp the file to a target location
 #- NOTES: It's assumed no password is needed to ssh /scp log in. Use -p switch to 
 #-   add a password.  Best practice is to create ssh keys.
+#- REQUIRED PACKAGES:libguestfs-tools,sshpass
 #- TODO: function to scp with sshpass if -p flag is called Right now, just manually
 #-   comment out the scp section if you're using ssh keys or supplying a password
 #################################################################################
@@ -133,7 +134,8 @@ function main() {
             [[ ! -d "$mount_point" ]] && mkdir "$mount_point"
                     
             get_lv_size "$name"
-            create_snapshot "$v_group" "$name"-backup "$name"-backup "$lv_size" "$v_group" "$name"
+            create_snapshot "$v_group" "$name"-backup "$name"-backup "$lv_size" \
+			    "$v_group" "$name"
             get_part_list "$v_group" "$name"-backup
 
             #some logical volumes only have one partition and it must be addressed 
@@ -141,14 +143,17 @@ function main() {
             #  and send to backup target server
             if [ -z "$part_info" ]; then
                 echo "Backing up single partition for ""$name"-sda-"$DATE"
-                create_part_backup "$v_group" "$name" /dev/sda "$mount_point"/"$name"-sda-"$DATE" || true
+                create_part_backup "$v_group" "$name" /dev/sda \
+				    "$mount_point"/"$name"-sda-"$DATE" || true
             else
                 echo "$name"-sda-"$DATE"            
             #if more than one partion in logical volume, tar, compress and ship
             #  all of them to backup target server
                 while IFS= read -r part; do
-                    part_num=$(echo "$part" | awk -v FS=/ '{print$ 3}') && echo "$part"
-                    create_part_backup "$v_group" "$name" "$part" "$mount_point"/"$name"-"$part_num"-"$DATE" || true
+                    part_num=$(echo "$part" | awk -v FS=/ '{print$ 3}')
+					echo "$part"
+                    create_part_backup "$v_group" "$name" "$part" \
+					    "$mount_point"/"$name"-"$part_num"-"$DATE" || true
                 done <<< "$part_info"
             fi
             echo ---------------------------------------------------------------
