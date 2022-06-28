@@ -17,3 +17,19 @@ sed -i "$(( $(sed -n "/string_on_a_line/"= /path/to/file.conf) +- int )) s/find_
 
 #create multiple directories, useful for building a skeleton quickly
 mkdir -p htg/{articles/{new,rewrites},images,notes,done}
+
+#for loop, check space separated variable and then do stuff
+function package_check() {
+    PACKAGES='curl jq'
+    for package in $PACKAGES; do 
+        CHECK_PACKAGE=$(sudo dpkg -l \
+        | grep --max-count 1 "$package" \
+        | awk '{print$ 2}')
+            
+        if [[ ! -z "$CHECK_PACKAGE" ]]; then 
+            echo "$package" 'is already installed'; 
+        else 
+            sudo apt-get --yes install --no-install-recommends "$package"
+        fi
+    done
+}
