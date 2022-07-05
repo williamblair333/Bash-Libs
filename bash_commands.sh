@@ -38,3 +38,15 @@ function package_check() {
 cat << 'EOF' > 
 path/dummyfile.txtTest file
 EOF
+
+#generate htpasswd password user and set password
+#!/usr/bin/expect -f
+    expect << EOF
+        spawn htpasswd -Bc $1 $2
+        expect "New password: "
+        send "$3\r"
+        expect "Re-type new password:"
+        send "$3\r"
+        expect "Adding password for user $2"
+        send "\r"
+EOF
