@@ -33,3 +33,8 @@ function package_check() {
         fi
     done
 }
+
+#Create a file in bash using EOF
+cat << 'EOF' > 
+path/dummyfile.txtTest file
+EOF
