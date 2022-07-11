@@ -50,3 +50,7 @@ EOF
         expect "Adding password for user $2"
         send "\r"
 EOF
+
+#grep for and return multiple strings.  The first part searches for 
+#first_string and anything between * the second string
+grep 'first_string.*\second_string\|third_string'
