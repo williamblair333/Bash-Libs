@@ -54,3 +54,11 @@ EOF
 #grep for and return multiple strings.  The first part searches for 
 #first_string and anything between * the second string
 grep 'first_string.*\second_string\|third_string'
+
+#if a variable is empty, do x or y
+if [ -z "$var" ]
+then
+      echo "\$var is empty"
+else
+      echo "\$var is NOT empty"
+fi
